@@ -1,0 +1,27 @@
+{
+	"name": "shopify-backend-challenge",
+	"version": "1.0.0",
+	"description": "Code for Shopify Backend Developer Intern Challenge - Summer 2022 ",
+	"main": "index.js",
+	"scripts": {
+		"start": "node --require dotenv/config index.js",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/am-chourasia/shopify-backend-challenge.git"
+	},
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/am-chourasia/shopify-backend-challenge/issues"
+	},
+	"homepage": "https://github.com/am-chourasia/shopify-backend-challenge#readme",
+	"dependencies": {
+		"express": "^4.17.2",
+		"pg": "^8.7.1"
+	},
+	"devDependencies": {
+		"dotenv": "^11.0.0"
+	}
+}
