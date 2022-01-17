@@ -1,6 +1,8 @@
 const routes = require("express").Router();
 const pool = require("./db");
 
+// =============================================================CRUD ROUTES=============================================================
+
 // @Description: add a new Product in the products table which also reflects in the inventory table:
 // @Request: POST
 // @Endpoint: url/product
@@ -8,7 +10,6 @@ const pool = require("./db");
 //	 	name, description, price
 //	 } as JSON
 // @Returns: Posted product | Error Message
-
 routes.post("/product", async (req, res) => {
 	try {
 		// extracting product details from request body:
@@ -19,7 +20,7 @@ routes.post("/product", async (req, res) => {
 			// RETURNING* adds the data to the newProduct variable
 			[name, description, price]
 		);
-		// sending the json response
+		// sending the newly posted product as json response
 		res.status(201).json(newProduct.rows[0]);
 	} catch (error) {
 		// returning error message if error occurs during the post operation:
@@ -55,7 +56,7 @@ routes.get("/inventory", async (req, res) => {
 		const inventories = await pool.query("SELECT * FROM inventory");
 		res.json(inventories.rows);
 	} catch (error) {
-		return res.status(400).send({
+		return res.status(500).send({
 			message: error.message,
 		});
 	}

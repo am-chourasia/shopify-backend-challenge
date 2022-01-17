@@ -19,6 +19,7 @@
 	"homepage": "https://github.com/am-chourasia/shopify-backend-challenge#readme",
 	"dependencies": {
 		"express": "^4.17.2",
+		"json2csv": "^5.0.6",
 		"pg": "^8.7.1"
 	},
 	"devDependencies": {
