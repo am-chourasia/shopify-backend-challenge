@@ -1,34 +1,7 @@
 const routes = require("express").Router();
 const pool = require("./db");
 
-// =============================================================CRUD ROUTES=============================================================
-
-// @Description: add a new Product in the products table which also reflects in the inventory table:
-// @Request: POST
-// @Endpoint: url/product
-// @Body Expectation: {
-//	 	name, description, price
-//	 } as JSON
-// @Returns: Posted product | Error Message
-routes.post("/product", async (req, res) => {
-	try {
-		// extracting product details from request body:
-		const { name, description, price } = req.body;
-		// inserting the product into the database
-		const newProduct = await pool.query(
-			"INSERT INTO products (product_name, product_description, product_price) VALUES($1, $2, $3) RETURNING *",
-			// RETURNING* adds the data to the newProduct variable
-			[name, description, price]
-		);
-		// sending the newly posted product as json response
-		res.status(201).json(newProduct.rows[0]);
-	} catch (error) {
-		// returning error message if error occurs during the post operation:
-		res.status(500).send({
-			message: error.message,
-		});
-	}
-});
+// =============================================================PRODUCT ROUTES=============================================================
 
 // @Description: view all products:
 // @Request: GET
@@ -37,7 +10,9 @@ routes.post("/product", async (req, res) => {
 routes.get("/products", async (req, res) => {
 	try {
 		// query the products table in the database:
-		const products = await pool.query("SELECT * FROM products");
+		const products = await pool.query(
+			"SELECT * FROM products ORDER BY product_id"
+		);
 		// return the products to the client:
 		res.json(products.rows);
 	} catch (error) {
@@ -47,13 +22,117 @@ routes.get("/products", async (req, res) => {
 	}
 });
 
+// @Description: add a new Product in the products table which also reflects in the inventory table:
+// @Request: POST
+// @Endpoint: url/product
+// @Body Expectation: {
+//	 	sku, name, description, price
+//	 } as JSON
+// @Returns: Posted product | Error Message
+routes.post("/product", async (req, res) => {
+	try {
+		// extracting product details from request body:
+		const { sku, name, description, price } = req.body;
+		// inserting the product into the database
+		const newProduct = await pool.query(
+			"INSERT INTO products (product_sku, product_name, product_description, product_price) VALUES($1, $2, $3, $4) RETURNING *",
+			// RETURNING* adds the data to the newProduct variable
+			[sku, name, description, price]
+		);
+		// sending the newly posted product as json response
+		res.status(201).json(newProduct.rows[0]);
+	} catch (error) {
+		// returning error message if error occurs during the post operation:
+		res.status(400).send({
+			message: error.message,
+		});
+	}
+});
+
+// @Description: update an inventory
+// @Request: PUT
+// @Endpoint: url/inventory/id
+// @Returns: Inventory Details of the Updated Inventory | Error
+routes.put("/product/:product_id", async (req, res) => {
+	// function to set up the query from the given arguments for the update operation
+	const updateProductById = (id, cols) => {
+		// Setup static beginning of query
+		var query = ["UPDATE products"];
+		query.push("SET");
+
+		// Create another array storing each set command
+		// and assigning a number value for parameterized query
+		var set = [];
+		Object.keys(cols).forEach((key, i) => {
+			set.push(key + " = ($" + (i + 1) + ")");
+		});
+		query.push(set.join(", "));
+
+		// Add the WHERE statement to look up by id
+		query.push("WHERE product_id = " + id + "RETURNING *");
+
+		// Return a complete query string
+		return query.join(" ");
+	};
+	try {
+		// extractinf inventory_id from request body:
+		const { product_id } = req.params;
+		// list of columns to update for the given inventory
+		const columnsToUpdate = req.body;
+		// updated column values:
+		const colValues = Object.keys(req.body).map((key) => req.body[key]);
+		// genereating the query string:
+		const query = updateProductById(product_id, columnsToUpdate);
+		// querying the database:
+		const updatedInventory = await pool.query(query, colValues);
+		// if no inventory with the given id exists:
+		if (updatedInventory.rowCount == 0)
+			return res.status(404).send("Inventory with given ID does not exist");
+		// send the updated Inventory:
+		res.json(updatedInventory.rows[0]);
+	} catch (error) {
+		return res.status(400).send({
+			message: error.message,
+		});
+	}
+});
+
+// @Description: delete a product and therefore it's inventory
+// @Request: DELETE
+// @Endpoint: url/product/id
+// @Returns: Deleted Product Details | Error
+routes.delete("/product/:product_id", async (req, res) => {
+	try {
+		// extracting product id from the request paramater
+		const { product_id } = req.params;
+		// deleting the product from the database:
+		const deletedProduct = await pool.query(
+			"DELETE FROM products WHERE product_id = $1 RETURNING *",
+			[product_id]
+		);
+		// if no product exists with the given id:
+		if (deletedProduct.rowCount == 0)
+			return res.status(404).send("Product with the given ID does not exist");
+		// return the deleted product details:
+		res.json(deletedProduct.rows[0]);
+	} catch (error) {
+		return res.status(500).send({
+			message: error.message,
+		});
+	}
+});
+
+// =============================================================INVENTORY ROUTES=============================================================
+
 // @Description: view all inventory details
 // @Request: GET
 // @Endpoint: url/inventory
 // @Returns: All Inventory Details | Error
 routes.get("/inventory", async (req, res) => {
 	try {
-		const inventories = await pool.query("SELECT * FROM inventory");
+		const inventories = await pool.query(
+			"SELECT * FROM inventory ORDER BY product_id"
+		);
 		res.json(inventories.rows);
 	} catch (error) {
 		return res.status(500).send({
@@ -128,32 +207,7 @@ routes.put("/inventory/:inventory_id", async (req, res) => {
 		// send the updated Inventory:
 		res.json(updatedInventory.rows[0]);
 	} catch (error) {
-		return res.status(500).send({
-			message: error.message,
-		});
-	}
-});
-
-// @Description: delete a product and therefore it's inventory
-// @Request: DELETE
-// @Endpoint: url/product/id
-// @Returns: Deleted Product Details | Error
-routes.delete("/product/:product_id", async (req, res) => {
-	try {
-		// extracting product id from the request paramater
-		const { product_id } = req.params;
-		// deleting the product from the database:
-		const deletedProduct = await pool.query(
-			"DELETE FROM products WHERE product_id = $1 RETURNING *",
-			[product_id]
-		);
-		// if no product exists with the given id:
-		if (deletedProduct.rowCount == 0)
-			return res.status(404).send("Product with the given ID does not exist");
-		// return the deleted product details:
-		res.json(deletedProduct.rows[0]);
-	} catch (error) {
-		return res.status(500).send({
+		return res.status(400).send({
 			message: error.message,
 		});
 	}

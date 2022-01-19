@@ -1,0 +1,71 @@
+/* .title {
+	margin-left: 20%;
+} */
+.container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+p {
+	font-size: larger;
+	margin: 5px;
+}
+form {
+	margin-bottom: 5px;
+}
+input {
+	padding: 8px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	width: 100px;
+}
+.edit-id {
+	width: 20px;
+}
+
+table {
+	margin: 10px;
+	color: #333;
+	background: white;
+	border: 1px solid grey;
+	font-size: 12pt;
+	border-collapse: collapse;
+}
+table thead th {
+	color: #777;
+	background: rgba(0, 0, 0, 0.1);
+}
+table caption {
+	padding: 0.5em;
+}
+table th,
+table td {
+	padding: 0.5em;
+	border: 1px solid lightgrey;
+}
+td:first-child {
+	display: none;
+}
+
+.button {
+	margin: 10px;
+	padding: 5px;
+	font-size: medium;
+	text-align: center;
+	border-radius: 4px;
+	background-color: #1371cf;
+	color: white;
+	transition-duration: 0.2s;
+}
+
+.button:hover {
+	background-color: aliceblue; /* Green */
+	color: black;
+}
+.submitProduct {
+	width: 100px;
+}
+.error-div {
+	margin: 3px;
+}

@@ -46,7 +46,7 @@ Additional Feature Chosen: **Push a button export product data to a CSV**
    sudo service postgresql start
    ```
 3. Login to the postgresql with your credentials.
-4. Run the database commands in the [database](/db.js) file to create the tables.
+4. Run the database commands in the [database](/database.sql) file to create the tables.
 5. Setup your environement variables in .env file from the .env environment example given.
 6. Open the terminal and start the server. \
    This will expose the API Endpoints on the host and port specified in the .env file:
@@ -87,12 +87,14 @@ Additional Feature Chosen: **Push a button export product data to a CSV**
     [
         {
             "product_id": 8,
+            "product_sku": '159632',
             "product_name": "Killer",
             "product_description": "Shirts like no other",
             "product_price": 999
         },
         {
             "product_id": 9,
+            "product_sku": '147852',
             "product_name": "Bummer",
             "product_description": "Luxury like never before",
             "product_price": 400
@@ -106,6 +108,7 @@ Additional Feature Chosen: **Push a button export product data to a CSV**
     curl --location --request POST 'http://localhost:5000/product' \
         --header 'Content-Type: text/plain' \
         --data-raw '{
+            "sku" : "456123",
             "name" : "Laptops",
             "description": "Laptops for work",
             "price" : 70000
@@ -115,6 +118,7 @@ Additional Feature Chosen: **Push a button export product data to a CSV**
     ```
     {
         "product_id": 11,
+        "product_sku": "456123",
         "product_name": "Laptops",
         "product_description": "Laptops for work",
         "product_price": 70000
@@ -130,6 +134,7 @@ Additional Feature Chosen: **Push a button export product data to a CSV**
     ```
     {
         "product_id": 11,
+        "product_sku": "456123",
         "product_name": "Laptops",
         "product_description": "Laptops for work",
         "product_price": 70000
@@ -147,7 +152,7 @@ Additional Feature Chosen: **Push a button export product data to a CSV**
         {
             "inventory_id": 6,
             "product_id": 8,
-            "sku": null,
+            "product_sku": "159632",
             "incoming": 0,
             "available": 0,
             "ordered": 0,
@@ -156,16 +161,7 @@ Additional Feature Chosen: **Push a button export product data to a CSV**
         {
             "inventory_id": 7,
             "product_id": 9,
-            "sku": null,
-            "incoming": 0,
-            "available": 0,
-            "ordered": 0,
-            "sold": 0
-        },
-        {
-            "inventory_id": 8,
-            "product_id": 10,
-            "sku": null,
+            "product_sku": "147852",
             "incoming": 0,
             "available": 0,
             "ordered": 0,
@@ -185,7 +181,7 @@ Additional Feature Chosen: **Push a button export product data to a CSV**
         {
             "inventory_id": 6,
             "product_id": 8,
-            "sku": null,
+            "product_sku": "159632",
             "incoming": 0,
             "available": 0,
             "ordered": 0,
@@ -200,7 +196,6 @@ Additional Feature Chosen: **Push a button export product data to a CSV**
     curl --location --request PUT 'http://localhost:5000/inventory/6' \
         --header 'Content-Type: application/json' \
         --data-raw '{
-            "sku": 1589996,
             "incoming": 10,
             "available": 50,
             "ordered": 18,
@@ -212,7 +207,7 @@ Additional Feature Chosen: **Push a button export product data to a CSV**
     {
         "inventory_id": 6,
         "product_id": 8,
-        "sku": "1589996",
+        "product_sku": "159632",
         "incoming": 10,
         "available": 50,
         "ordered": 18,

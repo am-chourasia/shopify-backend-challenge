@@ -2,6 +2,13 @@ const express = require("express");
 const app = express();
 const routes = require("./routes.js");
 const exportRoutes = require("./exportRoutes.js");
+const cors = require("cors");
+
+app.use(
+	cors({
+		origin: "http://localhost:5500",
+	})
+);
 
 app.use(express.json());
 // used to recieve data as json objects from the client for the POST or PUT request.

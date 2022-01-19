@@ -11,13 +11,14 @@
 		"type": "git",
 		"url": "git+https://github.com/am-chourasia/shopify-backend-challenge.git"
 	},
-	"author": "",
+	"author": "Ashish Chourasia",
 	"license": "ISC",
 	"bugs": {
 		"url": "https://github.com/am-chourasia/shopify-backend-challenge/issues"
 	},
 	"homepage": "https://github.com/am-chourasia/shopify-backend-challenge#readme",
 	"dependencies": {
+		"cors": "^2.8.5",
 		"express": "^4.17.2",
 		"json2csv": "^5.0.6",
 		"pg": "^8.7.1"
