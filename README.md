@@ -77,6 +77,7 @@ Inventory Tracking web app for products of a company.
    ```
 
 </br>
+
 ## 📕 Database Design:
 
 <img src="./assets/DatabaseDesign.png" alt="drawing" width="500"/>
