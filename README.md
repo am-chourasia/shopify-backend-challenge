@@ -40,15 +40,18 @@ Additional Feature Chosen: **Push a button export product data to a CSV**
    ```
    git clone https://github.com/am-chourasia/shopify-backend-challenge.git
    ```
-
-2. Start the postresql database service:
+2. Navigate to the root folder and install the dependecies:
+   ```
+   npm install
+   ```
+3. Start the postresql database service:
    ```
    sudo service postgresql start
    ```
-3. Login to the postgresql with your credentials.
-4. Run the database commands in the [database](/database.sql) file to create the tables.
-5. Setup your environement variables in .env file from the .env environment example given.
-6. Open the terminal and start the server. \
+4. Login to the postgresql with your credentials.
+5. Run the database commands in the [database](/database.sql) file to create the tables.
+6. Setup your environement variables in .env file from the .env environment example given.
+7. Open the terminal and start the server. \
    This will expose the API Endpoints on the host and port specified in the .env file:
    ```
    npm start
