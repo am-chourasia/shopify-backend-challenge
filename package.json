@@ -2,9 +2,10 @@
 	"name": "shopify-backend-challenge",
 	"version": "1.0.0",
 	"description": "Code for Shopify Backend Developer Intern Challenge - Summer 2022 ",
-	"main": "index.js",
+	"main": "server.js",
 	"scripts": {
-		"start": "node --require dotenv/config index.js",
+		"start": "node server.js",
+		"dev": "node --require dotenv/config server.js",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"repository": {
@@ -18,7 +19,6 @@
 	},
 	"homepage": "https://github.com/am-chourasia/shopify-backend-challenge#readme",
 	"dependencies": {
-		"cors": "^2.8.5",
 		"express": "^4.17.2",
 		"json2csv": "^5.0.6",
 		"pg": "^8.7.1"

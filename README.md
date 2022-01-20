@@ -1,12 +1,19 @@
 # Shopify-backend-challenge
 
+## Deployed here: [Shopify Inventory](https://shopifyinventorychallenge.herokuapp.com/)
+
 [Shopify Backend Developer Intern Challenge - Summer 2022](https://docs.google.com/document/d/1z9LZ_kZBUbg-O2MhZVVSqTmvDko5IJWHtuFmIu_Xg1A/edit#)
 
-Inventory Tracking web app for the products of a company.
+Inventory Tracking web app for products of a company.
 </br>
-Additional Feature Chosen: **Push a button export product data to a CSV**
+**Candidate**: Ashish Manoj Chourasia
+</br>
+**Additional Feature Chosen**: Push a button export product data to a CSV
+</br>
 
-> Candidate: Ashish Manoj Chourasia
+<img src="./assets/preview.png" alt="drawing" width="700" style='margin: 0 auto;'/>
+
+</br>
 
 ## 📜 Tech-Stack Used:
 
@@ -26,6 +33,21 @@ Additional Feature Chosen: **Push a button export product data to a CSV**
 </p>
 
 </br>
+
+## File/Folder Details:
+
+```
+    assets:             Contains images for this readme file.
+    index.html:         The HMTL page containing JS and CSS that is rendered at the home page.
+    server.js:          The starting file of the server application.
+    db.js :             Database Connection
+    database.sql:       SQL commands to be run on the database before the start of the application
+    routes.js:          CRUD API routes operations on the products and inventory table
+    exportRoutes.js:    Routes for exporting the data as a CSV File
+    package* :          Configuration/Dependency file for the node application
+    .env.example:       Example of how should the original .env file contain
+```
+
 </br>
 
 ## 💾 Installation and usage
@@ -40,24 +62,25 @@ Additional Feature Chosen: **Push a button export product data to a CSV**
    ```
    git clone https://github.com/am-chourasia/shopify-backend-challenge.git
    ```
-2. Navigate to the root folder and install the dependecies:
-   ```
-   npm install
-   ```
-3. Start the postresql database service:
+
+2. Start the postresql database service:
    ```
    sudo service postgresql start
    ```
-4. Login to the postgresql with your credentials.
-5. Run the database commands in the [database](/database.sql) file to create the tables.
-6. Setup your environement variables in .env file from the .env environment example given.
-7. Open the terminal and start the server. \
+3. Login to the postgresql with your credentials.
+4. Run the database commands in the [database](database.sql) file to create the tables.
+5. Setup your environement variables in .env file from the .env environment [example](./.env.example) given.
+6. Open the terminal and start the server in the dev environment. \
    This will expose the API Endpoints on the host and port specified in the .env file:
    ```
-   npm start
+   npm run dev
    ```
 
 </br>
+## 📕 Database Design:
+
+<img src="./assets/DatabaseDesign.png" alt="drawing" width="500"/>
+
 </br>
 
 ## 💽 API Details:
@@ -68,6 +91,7 @@ Additional Feature Chosen: **Push a button export product data to a CSV**
 | ----------------- | :----: | :---------------------------------------------------------------------------------- |
 | /products         |  GET   | View all products:                                                                  |
 | /product          |  POST  | Add a new Product in the products table which also reflects in the inventory table: |
+| //product/id      |  PUT   | Update an existing product with the given id                                        |
 | /product/id       | DELETE | delete a product and therefore it's inventory                                       |
 | /inventory        |  GET   | view all inventory details                                                          |
 | /inventory/id     |  GET   | get a row from inventory                                                            |
@@ -75,7 +99,6 @@ Additional Feature Chosen: **Push a button export product data to a CSV**
 | /export/product   |  GET   | Export the product details to a csv file                                            |
 | /export/inventory |  GET   | Export the inventory details to a csv file                                          |
 
-</br>
 </br>
 
 ## Examples of Requests and Response:
